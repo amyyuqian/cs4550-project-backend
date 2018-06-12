@@ -1,6 +1,8 @@
 package com.example.cs4550projectbackend.models;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -15,15 +17,29 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
-	@OneToMany(mappedBy="user")
+	
+	@ManyToMany(cascade={CascadeType.ALL})
+	@JoinTable(name="followers_following",
+		joinColumns={@JoinColumn(name="follower_id")},
+		inverseJoinColumns={@JoinColumn(name="following_id")})
 	@JsonIgnore
-	private List<User> following;
-	@OneToMany(mappedBy="user")
+	private Set<User> following = new HashSet<User>();
+	
+	@ManyToMany(mappedBy="following")
 	@JsonIgnore
-	private List<User> followers;
-	@OneToMany(mappedBy="user")
+	private Set<User> followers = new HashSet<User>();
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+                })
+	@JoinTable(name="user_favorites",
+		joinColumns={@JoinColumn(name="user_id")},
+		inverseJoinColumns={@JoinColumn(name="image_id")})
 	@JsonIgnore
-	private List<Image> favorites;
+	private Set<Image> favorites;
+	
 	@OneToMany(mappedBy="user")
 	@JsonIgnore
 	private List<Comment> comments;
@@ -58,22 +74,22 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public List<User> getFollowing() {
+	public Set<User> getFollowing() {
 		return following;
 	}
-	public void setFollowing(List<User> following) {
+	public void setFollowing(Set<User> following) {
 		this.following = following;
 	}
-	public List<User> getFollowers() {
+	public Set<User> getFollowers() {
 		return followers;
 	}
-	public void setFollowers(List<User> followers) {
+	public void setFollowers(Set<User> followers) {
 		this.followers = followers;
 	}
-	public List<Image> getFavorites() {
+	public Set<Image> getFavorites() {
 		return favorites;
 	}
-	public void setFavorites(List<Image> favorites) {
+	public void setFavorites(Set<Image> favorites) {
 		this.favorites = favorites;
 	}
 	public List<Comment> getComments() {

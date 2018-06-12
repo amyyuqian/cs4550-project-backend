@@ -1,6 +1,8 @@
 package com.example.cs4550projectbackend.models;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -14,9 +16,19 @@ public class Image {
 	private String url;
 	private String type;
 	private int likes;
+	
 	@OneToMany(mappedBy="image")
 	@JsonIgnore
 	private List<Comment> comments;
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            },
+            mappedBy = "favorites")
+    private Set<User> favoritedBy = new HashSet<User>();
+	
 	
 	public int getId() {
 		return id;
@@ -47,5 +59,11 @@ public class Image {
 	}
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	public Set<User> getFavoritedBy() {
+		return favoritedBy;
+	}
+	public void setFavoritedBy(Set<User> favoritedBy) {
+		this.favoritedBy = favoritedBy;
 	}
  }

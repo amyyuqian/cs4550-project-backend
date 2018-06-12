@@ -12,7 +12,8 @@ public class Comment {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String text;
-	private Date dateCreated;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateCreated = new Date();
 	@ManyToOne
 	@JsonIgnore
 	private User user;
