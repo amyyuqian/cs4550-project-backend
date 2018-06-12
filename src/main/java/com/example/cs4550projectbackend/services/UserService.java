@@ -118,4 +118,37 @@ public class UserService {
 		}
 		return null;
 	}
+	
+	@GetMapping("/api/user/{userId}/follows")
+	public Set<User> getFollowers(@PathVariable("userId") int userId) {
+		Optional<User> data = repository.findById(userId);
+		if(data.isPresent()) {
+			return data.get().getFollowers();
+		}
+		return null;
+	}
+	
+	@GetMapping("/api/user/{userId}/following")
+	public Set<User> getFollowing(@PathVariable("userId") int userId) {
+		Optional<User> data = repository.findById(userId);
+		if(data.isPresent()) {
+			return data.get().getFollowing();
+		}
+		return null;
+	}
+	
+	@PutMapping("/api/user/{id1}/follow/{id2}")
+	public User followUserById(@PathVariable("id1")int id1, @PathVariable("id2")int id2) {
+		Optional<User> data1 = repository.findById(id1);
+		Optional<User> data2 = repository.findById(id2);
+		
+		if (data1.isPresent() && data2.isPresent()) {
+			User u1 = data1.get();
+			User u2 = data2.get();
+			u1.getFollowing().add(u2);
+			u2.getFollowers().add(u1);
+			return repository.save(u1);
+		}
+		return null;
+	}
 }
