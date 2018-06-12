@@ -16,6 +16,9 @@ public class Comment {
 	@ManyToOne
 	@JsonIgnore
 	private User user;
+	@ManyToOne
+	@JsonIgnore
+	private Image image;
 	
 	public int getId() {
 		return id;
@@ -23,8 +26,6 @@ public class Comment {
 	public void setId(int id) {
 		this.id = id;
 	}
-	private Image img;
-	
 	public String getText() {
 		return text;
 	}
@@ -42,5 +43,11 @@ public class Comment {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public Image getImage() {
+		return image;
+	}
+	public void setImage(Image image) {
+		this.image = image;
 	}
  }
