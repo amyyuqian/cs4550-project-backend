@@ -1,7 +1,6 @@
 package com.example.cs4550projectbackend.models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,6 +17,14 @@ public class Comment {
 	@JsonIgnore
 	private User user;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	private Image img;
+	
 	public String getText() {
 		return text;
 	}
@@ -30,4 +37,10 @@ public class Comment {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+ }

@@ -58,6 +58,30 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	public List<User> getFollowing() {
+		return following;
+	}
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
+	public List<User> getFollowers() {
+		return followers;
+	}
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+	public List<Image> getFavorites() {
+		return favorites;
+	}
+	public void setFavorites(List<Image> favorites) {
+		this.favorites = favorites;
+	}
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 	
 }
 

@@ -18,6 +18,12 @@ public class Image {
 	@JsonIgnore
 	private List<Comment> comments;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getUrl() {
 		return url;
 	}
@@ -36,4 +42,10 @@ public class Image {
 	public void setLikes(int likes) {
 		this.likes = likes;
 	}
-}
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+ }
