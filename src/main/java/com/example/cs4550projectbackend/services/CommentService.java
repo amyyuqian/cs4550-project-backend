@@ -13,6 +13,7 @@ import com.example.cs4550projectbackend.repositories.ImageRepository;
 import com.example.cs4550projectbackend.repositories.UserRepository;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class CommentService {
 	@Autowired
 	UserRepository userRepo;
