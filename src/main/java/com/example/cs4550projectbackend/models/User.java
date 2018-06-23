@@ -18,6 +18,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private boolean isAdmin;
 	
 	@ManyToMany(cascade={CascadeType.ALL})
 	@JoinTable(name="followers_following",
@@ -104,6 +105,12 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 	
 }
