@@ -17,6 +17,7 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private String email;
 	
 	@ManyToMany(cascade={CascadeType.ALL})
 	@JoinTable(name="followers_following",
@@ -97,6 +98,12 @@ public class User {
 	}
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

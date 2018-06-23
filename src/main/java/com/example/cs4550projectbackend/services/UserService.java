@@ -60,6 +60,7 @@ public class UserService {
 			User user = data.get();
 			user.setFirstName(body.getFirstName());
 			user.setLastName(body.getLastName());
+			user.setEmail(body.getEmail());
 			repository.save(user);
 			return user;
 		}
