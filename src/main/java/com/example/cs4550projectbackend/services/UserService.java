@@ -64,7 +64,7 @@ public class UserService {
 			user.setFirstName(body.getFirstName());
 			user.setLastName(body.getLastName());
 			user.setEmail(body.getEmail());
-			user.setAdmin(body.getIsAdmin());
+			user.setIsAdmin(body.getIsAdmin());
 			repository.save(user);
 			return user;
 		}
