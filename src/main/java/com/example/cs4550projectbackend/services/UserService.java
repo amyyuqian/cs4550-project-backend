@@ -35,12 +35,14 @@ public class UserService {
 	}
 	
 	@PostMapping("/api/login")
-	public User login(@RequestBody User user, HttpSession session) {
+	public User login(@RequestBody User user, HttpSession session, HttpServletResponse response) {
 		Optional<User> data = repository.findUserByCredentials(user.getUsername(), user.getPassword());
 		if (data.isPresent()) {
 			session.setAttribute("user", user.getUsername());
+			return data.get();
 		}
-		return data.get();
+		response.setStatus(HttpServletResponse.SC_CONFLICT);
+		return null;
 	}
 	
 	@GetMapping("/api/profile")
@@ -64,7 +66,7 @@ public class UserService {
 			user.setFirstName(body.getFirstName());
 			user.setLastName(body.getLastName());
 			user.setEmail(body.getEmail());
-			user.setIsAdmin(body.getIsAdmin());
+			user.setAdmin(body.isAdmin());
 			repository.save(user);
 			return user;
 		}
@@ -83,13 +85,16 @@ public class UserService {
 	}
 	
 	@PutMapping("/api/user/{userId}")
-	public User updateUser(@PathVariable("userId") int userId, @RequestBody User newUser) {
+	public User updateUser(@PathVariable("userId") int userId, @RequestBody User body) {
 		Optional<User> data = repository.findById(userId);
 		if(data.isPresent()) {
 			User user = data.get();
-			user.setFirstName(newUser.getFirstName());
-			user.setUsername(newUser.getUsername());
-			user.setLastName(newUser.getLastName());
+			user.setUsername(body.getUsername());
+			user.setPassword(body.getPassword());
+			user.setFirstName(body.getFirstName());
+			user.setLastName(body.getLastName());
+			user.setEmail(body.getEmail());
+			user.setAdmin(body.isAdmin());
 			repository.save(user);
 			return user;
 		}
