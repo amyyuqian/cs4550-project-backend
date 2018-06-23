@@ -44,12 +44,13 @@ public class UserService {
 	}
 	
 	@GetMapping("/api/profile")
-	public User getProfile(HttpSession session) {
+	public User getProfile(HttpSession session, HttpServletResponse response) {
 		String username = (String) session.getAttribute("user");	
 		Optional<User> data = repository.findUserByUsername(username);
 		if (data.isPresent()) {
 			return data.get();
 		}
+		response.setStatus(HttpServletResponse.SC_CONFLICT);
 		return null;
 	}
 	
