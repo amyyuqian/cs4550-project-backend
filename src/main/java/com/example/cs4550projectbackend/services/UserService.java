@@ -56,23 +56,6 @@ public class UserService {
 		return null;
 	}
 	
-	@PutMapping("/api/profile/{id}")
-	public User updateProfile(@PathVariable("id") int id, @RequestBody User body) {
-		Optional<User> data = repository.findById(id);
-		if(data.isPresent()) {
-			User user = data.get();
-			user.setUsername(body.getUsername());
-			user.setPassword(body.getPassword());
-			user.setFirstName(body.getFirstName());
-			user.setLastName(body.getLastName());
-			user.setEmail(body.getEmail());
-			user.setAdmin(body.isAdmin());
-			repository.save(user);
-			return user;
-		}
-		return null;
-	}
-	
 	@PostMapping("/api/logout")
 	public void logout(HttpSession session) {
 		session.invalidate();
