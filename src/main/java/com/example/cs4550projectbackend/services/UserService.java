@@ -154,7 +154,7 @@ public class UserService {
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		Optional<User> data = repository.findById(id);
-		res.setHeader("Access-Control-Allow-Origin", "true");
+		res.setHeader("Access-Control-Allow-Origin", "*");
 		if (curData.isPresent() && data.isPresent()) {
 			User u1 = curData.get();
 			User u2 = data.get();
