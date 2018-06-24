@@ -1,5 +1,6 @@
 package com.example.cs4550projectbackend.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	@Query("SELECT u FROM User u WHERE u.username=:username")
 	Optional<User> findUserByUsername(
 		@Param("username") String username);
+	
+	@Query("SELECT u FROM User u WHERE UPPER(u.username) LIKE CONCAT('%',UPPER(:username),'%')")
+	List<User> findLikeUsers(@Param("username") String username);
 }

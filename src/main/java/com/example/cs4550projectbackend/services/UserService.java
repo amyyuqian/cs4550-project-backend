@@ -61,6 +61,10 @@ public class UserService {
 		session.invalidate();
 	}
 
+	@GetMapping("/api/search/{username}")
+	public List<User> searchUsers(@PathVariable("username") String username) {
+		return repository.findLikeUsers(username);
+	}
 	
 	@GetMapping("/api/user")
 	public List<User> findAllUsers() {
