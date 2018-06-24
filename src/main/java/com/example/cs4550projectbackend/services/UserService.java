@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "true")
 public class UserService {
 	@Autowired
 	UserRepository repository;
@@ -162,6 +162,7 @@ public class UserService {
 			u2.getFollowers().add(u1);
 			return repository.save(u1);
 		}
+		
 		return null;
 	}
 	
