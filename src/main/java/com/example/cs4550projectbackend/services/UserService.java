@@ -151,7 +151,7 @@ public class UserService {
 		return false;
 	}
 	
-	@PutMapping("/api/user/follow/{id}")
+	@GetMapping("/api/user/follow/{id}")
 	public User followUserById(@PathVariable("id")int id, HttpSession session, HttpServletResponse res) {
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
