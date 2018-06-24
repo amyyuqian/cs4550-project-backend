@@ -118,7 +118,7 @@ public class UserService {
 		return null;
 	}
 	
-	@GetMapping("/api/user/{userId}/follows")
+	@GetMapping("/api/user/{userId}/followers")
 	public Set<User> getFollowers(@PathVariable("userId") int userId) {
 		Optional<User> data = repository.findById(userId);
 		if(data.isPresent()) {
@@ -136,16 +136,46 @@ public class UserService {
 		return null;
 	}
 	
-	@PutMapping("/api/user/{id1}/follow/{id2}")
-	public User followUserById(@PathVariable("id1")int id1, @PathVariable("id2")int id2) {
-		Optional<User> data1 = repository.findById(id1);
-		Optional<User> data2 = repository.findById(id2);
+	@GetMapping("/api/user/{userId}/isFollowing")
+	public boolean isFollowing(@PathVariable("userId") int userId, HttpSession session) {
+		Optional<User> data = repository.findById(userId);
+		Set<User> followers = data.get().getFollowers();
+		String curUsername = (String) session.getAttribute("user");	
+		Optional<User> curData = repository.findUserByUsername(curUsername);
+		User curUser = curData.get();
+		if (followers.contains(curUser)) {
+			return true;
+		}
+		return false;
+	}
+	
+	@PutMapping("/api/user/follow/{id}")
+	public User followUserById(@PathVariable("id")int id, HttpSession session) {
+		String curUsername = (String) session.getAttribute("user");	
+		Optional<User> curData = repository.findUserByUsername(curUsername);
+		Optional<User> data = repository.findById(id);
 		
-		if (data1.isPresent() && data2.isPresent()) {
-			User u1 = data1.get();
-			User u2 = data2.get();
+		if (curData.isPresent() && data.isPresent()) {
+			User u1 = curData.get();
+			User u2 = data.get();
 			u1.getFollowing().add(u2);
 			u2.getFollowers().add(u1);
+			return repository.save(u1);
+		}
+		return null;
+	}
+	
+	@PutMapping("/api/user/unfollow/{id}")
+	public User unfollowUserById(@PathVariable("id")int id, HttpSession session) {
+		String curUsername = (String) session.getAttribute("user");	
+		Optional<User> curData = repository.findUserByUsername(curUsername);
+		Optional<User> data = repository.findById(id);
+		
+		if (curData.isPresent() && data.isPresent()) {
+			User u1 = curData.get();
+			User u2 = data.get();
+			u1.getFollowing().remove(u2);
+			u2.getFollowers().remove(u1);
 			return repository.save(u1);
 		}
 		return null;
