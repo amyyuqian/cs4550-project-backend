@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, allowCredentials = "true")
 public class UserService {
 	@Autowired
 	UserRepository repository;
@@ -156,7 +156,6 @@ public class UserService {
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		Optional<User> data = repository.findById(id);
-		res.setHeader("Access-Control-Allow-Credentials", "true");
 		if (curData.isPresent() && data.isPresent()) {
 			User u1 = curData.get();
 			User u2 = data.get();
