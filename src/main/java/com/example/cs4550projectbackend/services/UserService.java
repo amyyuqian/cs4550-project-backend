@@ -150,7 +150,7 @@ public class UserService {
 	}
 	
 	@PutMapping("/api/user/follow/{id}")
-	public User followUserById(@PathVariable("id")int id, HttpSession session) {
+	public User followUserById(@PathVariable("id")int id, HttpSession session, HttpServletResponse res) {
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		Optional<User> data = repository.findById(id);
@@ -162,12 +162,12 @@ public class UserService {
 			u2.getFollowers().add(u1);
 			return repository.save(u1);
 		}
-		
+		res.setStatus(HttpServletResponse.SC_NO_CONTENT);
 		return null;
 	}
 	
 	@PutMapping("/api/user/unfollow/{id}")
-	public User unfollowUserById(@PathVariable("id")int id, HttpSession session) {
+	public User unfollowUserById(@PathVariable("id")int id, HttpSession session, HttpServletResponse res) {
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		Optional<User> data = repository.findById(id);
@@ -179,6 +179,7 @@ public class UserService {
 			u2.getFollowers().remove(u1);
 			return repository.save(u1);
 		}
+		res.setStatus(HttpServletResponse.SC_NO_CONTENT);
 		return null;
 	}
 }
