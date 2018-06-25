@@ -27,7 +27,7 @@ public class ImageService {
 		Optional<Image> data = imgRepo.findImageByUrl(image.getUrl());
 		if (data.isPresent()) {
 			response.setStatus(HttpServletResponse.SC_CONFLICT);
-			return null;
+			return data.get();
 		}
 		return imgRepo.save(image);
 	}
