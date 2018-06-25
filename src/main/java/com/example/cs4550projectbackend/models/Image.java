@@ -27,6 +27,7 @@ public class Image {
                 CascadeType.MERGE
             },
             mappedBy = "favorites")
+	@JsonIgnore
     private Set<User> favoritedBy = new HashSet<User>();
 	
 	
