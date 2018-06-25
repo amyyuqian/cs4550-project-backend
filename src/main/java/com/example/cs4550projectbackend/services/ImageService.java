@@ -125,7 +125,7 @@ public class ImageService {
 	
 	@GetMapping("/api/user/{userId}/image/{imgId}/isInFavorites")
 	public boolean isInFavorites(@PathVariable("imgId") int imgId, 
-			@PathVariable("userID") int userId, HttpSession session) {
+			@PathVariable("userId") int userId, HttpSession session) {
 		Optional<Image> data = imgRepo.findById(imgId);
 		Optional<User> curData = userRepo.findById(userId);
 		if (curData.isPresent() && data.isPresent()) {
