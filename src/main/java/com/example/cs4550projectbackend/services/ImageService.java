@@ -98,7 +98,10 @@ public class ImageService {
 	public User addToFavorites(@PathVariable("id") int id, HttpSession session) {
 		Optional<Image> data = imgRepo.findById(id);
 		String username = (String) session.getAttribute("user");
+		System.out.println("cur username: " + username);
 		Optional<User> curData = userRepo.findUserByUsername(username);
+		System.out.println("cur user data: " + curData);
+		System.out.println("cur img data: " + data);
 		if (curData.isPresent() && data.isPresent()) {
 			Image img = data.get();
 			User user = curData.get();
