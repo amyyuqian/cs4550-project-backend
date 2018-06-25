@@ -17,6 +17,7 @@ import com.example.cs4550projectbackend.repositories.UserRepository;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 public class UserService {
 	@Autowired
 	UserRepository repository;
+	@Autowired
 	ImageRepository imgRepo;
 	
 	@DeleteMapping("/api/user/{userId}")
@@ -38,10 +40,10 @@ public class UserService {
 	}
 	
 	@PostMapping("/api/login")
-	public User login(@RequestBody User user, HttpSession session, HttpServletResponse response) {
+	public User login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
 		Optional<User> data = repository.findUserByCredentials(user.getUsername(), user.getPassword());
 		if (data.isPresent()) {
-			session.setAttribute("user", user.getUsername());
+			request.getServletContext().setAttribute("user", user.getUsername());
 			return data.get();
 		}
 		response.setStatus(HttpServletResponse.SC_CONFLICT);
@@ -49,8 +51,8 @@ public class UserService {
 	}
 	
 	@GetMapping("/api/profile")
-	public User getProfile(HttpSession session, HttpServletResponse response) {
-		String username = (String) session.getAttribute("user");	
+	public User getProfile(HttpServletRequest request, HttpServletResponse response) {
+		String username = (String) request.getServletContext().getAttribute("user");	
 		Optional<User> data = repository.findUserByUsername(username);
 		if (data.isPresent()) {
 			return data.get();
