@@ -87,9 +87,9 @@ public class ImageService {
 		return null;
 	}
 	
-	@PostMapping("/api/image/{id}/favorite")
-	public User addToFavorites(@PathVariable("id")int id, HttpSession session) {
-		Optional<Image> data = imgRepo.findById(id);
+	@PostMapping("/api/image/{url}/favorite")
+	public User addToFavorites(@PathVariable("url")String url, HttpSession session) {
+		Optional<Image> data = imgRepo.findImageByUrl(url);
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = userRepo.findUserByUsername(curUsername);
 		
@@ -102,9 +102,9 @@ public class ImageService {
 		return null;
 	}
 	
-	@PostMapping("/api/image/{id}/unfavorite")
-	public User removeFromFavorites(@PathVariable("id")int id, HttpSession session) {
-		Optional<Image> data = imgRepo.findById(id);
+	@PostMapping("/api/image/{url}/unfavorite")
+	public User removeFromFavorites(@PathVariable("url")String url, HttpSession session) {
+		Optional<Image> data = imgRepo.findImageByUrl(url);
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = userRepo.findUserByUsername(curUsername);
 		
