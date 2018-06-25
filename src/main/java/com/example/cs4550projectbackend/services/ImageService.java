@@ -123,10 +123,10 @@ public class ImageService {
 		return null;
 	}
 	
-	@GetMapping("/api/user/{userId}image/{url}/isInFavorites")
-	public boolean isInFavorites(@PathVariable("url") String url, 
+	@GetMapping("/api/user/{userId}image/{imgId}/isInFavorites")
+	public boolean isInFavorites(@PathVariable("imgId") int imgId, 
 			@PathVariable("userID") int userId, HttpSession session) {
-		Optional<Image> data = imgRepo.findImageByUrl(url);
+		Optional<Image> data = imgRepo.findById(imgId);
 		Optional<User> curData = userRepo.findById(userId);
 		if (curData.isPresent() && data.isPresent()) {
 			Image img = data.get();
