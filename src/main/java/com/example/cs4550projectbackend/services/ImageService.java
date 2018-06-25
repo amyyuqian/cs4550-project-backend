@@ -123,7 +123,7 @@ public class ImageService {
 		return null;
 	}
 	
-	@GetMapping("/api/user/{userId}image/{imgId}/isInFavorites")
+	@GetMapping("/api/user/{userId}/image/{imgId}/isInFavorites")
 	public boolean isInFavorites(@PathVariable("imgId") int imgId, 
 			@PathVariable("userID") int userId, HttpSession session) {
 		Optional<Image> data = imgRepo.findById(imgId);
