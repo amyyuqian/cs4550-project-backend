@@ -141,11 +141,11 @@ public class UserService {
 	@GetMapping("/api/user/{userId}/isFollowing")
 	public boolean isFollowing(@PathVariable("userId") int userId, HttpSession session) {
 		Optional<User> data = repository.findById(userId);
-		Set<User> followers = data.get().getFollowers();
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		if (curData.isPresent()) {
 			User curUser = curData.get();
+			Set<User> followers = data.get().getFollowers();
 			if (followers.contains(curUser)) {
 				return true;
 			}

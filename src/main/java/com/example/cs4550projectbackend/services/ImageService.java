@@ -2,6 +2,7 @@ package com.example.cs4550projectbackend.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -122,5 +123,20 @@ public class ImageService {
 		return null;
 	}
 	
+	@GetMapping("/api/user/{userId}image/{url}/isInFavorites")
+	public boolean isInFavorites(@PathVariable("url") String url, 
+			@PathVariable("userID") int userId, HttpSession session) {
+		Optional<Image> data = imgRepo.findImageByUrl(url);
+		Optional<User> curData = userRepo.findById(userId);
+		if (curData.isPresent() && data.isPresent()) {
+			Image img = data.get();
+			User user = curData.get();
+			Set<Image> favorites = user.getFavorites();
+			if (favorites.contains(img)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }
