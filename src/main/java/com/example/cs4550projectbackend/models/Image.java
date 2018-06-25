@@ -15,7 +15,7 @@ public class Image {
 	private int id;
 	private String url;
 	private String type;
-	private int likes;
+	private int likes = 0;
 	
 	@OneToMany(mappedBy="image")
 	@JsonIgnore

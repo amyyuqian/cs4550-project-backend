@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cs4550projectbackend.models.User;
+import com.example.cs4550projectbackend.repositories.ImageRepository;
 import com.example.cs4550projectbackend.repositories.UserRepository;
 
 import java.util.*;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpSession;
 public class UserService {
 	@Autowired
 	UserRepository repository;
+	ImageRepository imgRepo;
 	
 	@DeleteMapping("/api/user/{userId}")
 	public void deleteUser(@PathVariable("userId") int id) {
