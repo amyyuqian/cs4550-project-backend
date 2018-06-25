@@ -20,6 +20,7 @@ import com.example.cs4550projectbackend.repositories.UserRepository;
 public class ImageService {
 	@Autowired
 	ImageRepository imgRepo;
+	@Autowired
 	UserRepository userRepo;
 
 	@PostMapping("/api/image")
@@ -96,9 +97,8 @@ public class ImageService {
 	@PostMapping("/api/image/{id}/favorite")
 	public User addToFavorites(@PathVariable("id") int id, HttpSession session) {
 		Optional<Image> data = imgRepo.findById(id);
-		String curUsername = (String) session.getAttribute("user");	
-		Optional<User> curData = userRepo.findUserByUsername(curUsername);
-		
+		String username = (String) session.getAttribute("user");
+		Optional<User> curData = userRepo.findUserByUsername(username);
 		if (curData.isPresent() && data.isPresent()) {
 			Image img = data.get();
 			User user = curData.get();

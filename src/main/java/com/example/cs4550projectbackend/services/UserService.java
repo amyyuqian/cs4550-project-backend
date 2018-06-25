@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cs4550projectbackend.models.Image;
 import com.example.cs4550projectbackend.models.User;
 import com.example.cs4550projectbackend.repositories.ImageRepository;
 import com.example.cs4550projectbackend.repositories.UserRepository;
@@ -134,6 +135,15 @@ public class UserService {
 		Optional<User> data = repository.findById(userId);
 		if(data.isPresent()) {
 			return data.get().getFollowing();
+		}
+		return null;
+	}
+	
+	@GetMapping("/api/user/{userId}/favorites")
+	public Set<Image> getFavorites(@PathVariable("userId") int userId) {
+		Optional<User> data = repository.findById(userId);
+		if(data.isPresent()) {
+			return data.get().getFavorites();
 		}
 		return null;
 	}
