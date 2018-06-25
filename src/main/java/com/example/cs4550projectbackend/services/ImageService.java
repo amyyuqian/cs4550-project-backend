@@ -93,9 +93,9 @@ public class ImageService {
 		return null;
 	}
 	
-	@PostMapping("/api/image/{url}/favorite")
-	public User addToFavorites(@PathVariable("url")String url, HttpSession session) {
-		Optional<Image> data = imgRepo.findImageByUrl(url);
+	@PostMapping("/api/image/{id}/favorite")
+	public User addToFavorites(@PathVariable("id") int id, HttpSession session) {
+		Optional<Image> data = imgRepo.findById(id);
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = userRepo.findUserByUsername(curUsername);
 		
@@ -108,9 +108,9 @@ public class ImageService {
 		return null;
 	}
 	
-	@PostMapping("/api/image/{url}/unfavorite")
-	public User removeFromFavorites(@PathVariable("url")String url, HttpSession session) {
-		Optional<Image> data = imgRepo.findImageByUrl(url);
+	@PostMapping("/api/image/{id}/unfavorite")
+	public User removeFromFavorites(@PathVariable("id") int id, HttpSession session) {
+		Optional<Image> data = imgRepo.findById(id);
 		String curUsername = (String) session.getAttribute("user");	
 		Optional<User> curData = userRepo.findUserByUsername(curUsername);
 		
@@ -124,8 +124,7 @@ public class ImageService {
 	}
 	
 	@GetMapping("/api/user/{userId}/image/{imgId}/isInFavorites")
-	public boolean isInFavorites(@PathVariable("imgId") int imgId, 
-			@PathVariable("userId") int userId, HttpSession session) {
+	public boolean isInFavorites(@PathVariable("userId") int userId, @PathVariable("imgId") int imgId) {
 		Optional<Image> data = imgRepo.findById(imgId);
 		Optional<User> curData = userRepo.findById(userId);
 		if (curData.isPresent() && data.isPresent()) {
