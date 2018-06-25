@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -95,9 +96,9 @@ public class ImageService {
 	}
 	
 	@PostMapping("/api/image/{id}/favorite")
-	public User addToFavorites(@PathVariable("id") int id, HttpSession session) {
+	public User addToFavorites(@PathVariable("id") int id, HttpServletRequest request) {
 		Optional<Image> data = imgRepo.findById(id);
-		String username = (String) session.getAttribute("user");
+		String username = (String) request.getServletContext().getAttribute("user");
 		System.out.println("cur username: " + username);
 		Optional<User> curData = userRepo.findUserByUsername(username);
 		System.out.println("cur user data: " + curData);
@@ -112,9 +113,9 @@ public class ImageService {
 	}
 	
 	@PostMapping("/api/image/{id}/unfavorite")
-	public User removeFromFavorites(@PathVariable("id") int id, HttpSession session) {
+	public User removeFromFavorites(@PathVariable("id") int id, HttpServletRequest request) {
 		Optional<Image> data = imgRepo.findById(id);
-		String curUsername = (String) session.getAttribute("user");	
+		String curUsername = (String) request.getServletContext().getAttribute("user");	
 		Optional<User> curData = userRepo.findUserByUsername(curUsername);
 		
 		if (curData.isPresent() && data.isPresent()) {
@@ -126,10 +127,12 @@ public class ImageService {
 		return null;
 	}
 	
-	@GetMapping("/api/user/{userId}/image/{imgId}/isInFavorites")
-	public boolean isInFavorites(@PathVariable("userId") int userId, @PathVariable("imgId") int imgId) {
+	@GetMapping("/api/image/{imgId}/isInFavorites")
+	public boolean isInFavorites(@PathVariable("userId") int userId, 
+			@PathVariable("imgId") int imgId, HttpServletRequest request) {
 		Optional<Image> data = imgRepo.findById(imgId);
-		Optional<User> curData = userRepo.findById(userId);
+		String curUsername = (String) request.getServletContext().getAttribute("user");	
+		Optional<User> curData = userRepo.findUserByUsername(curUsername);
 		if (curData.isPresent() && data.isPresent()) {
 			Image img = data.get();
 			User user = curData.get();

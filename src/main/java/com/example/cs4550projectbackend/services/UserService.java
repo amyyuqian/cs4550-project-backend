@@ -103,13 +103,13 @@ public class UserService {
 	}
 	
 	@PostMapping("/api/register")
-	public User register(@RequestBody User user, HttpSession session, HttpServletResponse response) {
+	public User register(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
 		Optional<User> data = repository.findUserByUsername(user.getUsername());
 		if (data.isPresent()) {
 			response.setStatus(HttpServletResponse.SC_CONFLICT);
 			return null;
 		} else {
-			session.setAttribute("user", user.getUsername());
+			request.getServletContext().setAttribute("user", user.getUsername());
 			return repository.save(user);
 		}
 	}
@@ -151,9 +151,9 @@ public class UserService {
 	}
 	
 	@GetMapping("/api/user/{userId}/isFollowing")
-	public boolean isFollowing(@PathVariable("userId") int userId, HttpSession session) {
+	public boolean isFollowing(@PathVariable("userId") int userId, HttpServletRequest request) {
 		Optional<User> data = repository.findById(userId);
-		String curUsername = (String) session.getAttribute("user");	
+		String curUsername = (String) request.getServletContext().getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		if (curData.isPresent()) {
 			User curUser = curData.get();
@@ -166,8 +166,8 @@ public class UserService {
 	}
 	
 	@GetMapping("/api/user/follow/{id}")
-	public User followUserById(@PathVariable("id")int id, HttpSession session, HttpServletResponse res) {
-		String curUsername = (String) session.getAttribute("user");	
+	public User followUserById(@PathVariable("id")int id, HttpServletRequest request, HttpServletResponse res) {
+		String curUsername = (String) request.getServletContext().getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		Optional<User> data = repository.findById(id);
 		if (curData.isPresent() && data.isPresent()) {
@@ -182,8 +182,8 @@ public class UserService {
 	}
 	
 	@PutMapping("/api/user/unfollow/{id}")
-	public User unfollowUserById(@PathVariable("id")int id, HttpSession session, HttpServletResponse res) {
-		String curUsername = (String) session.getAttribute("user");	
+	public User unfollowUserById(@PathVariable("id")int id, HttpServletRequest request, HttpServletResponse res) {
+		String curUsername = (String) request.getServletContext().getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
 		Optional<User> data = repository.findById(id);
 		
