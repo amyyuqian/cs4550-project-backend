@@ -33,8 +33,14 @@ public class UserService {
 	}
 	
 	@PostMapping("/api/user")
-	public User createUser(@RequestBody User user) {
-		return repository.save(user);
+	public User createUser(@RequestBody User user, HttpServletResponse response) {
+		Optional<User> data = repository.findUserByUsername(user.getUsername());
+		if (data.isPresent()) {
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
+			return null;
+		} else {
+			return repository.save(user);
+		}
 	}
 	
 	@PostMapping("/api/login")
