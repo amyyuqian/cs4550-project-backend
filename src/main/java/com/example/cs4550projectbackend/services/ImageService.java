@@ -43,6 +43,11 @@ public class ImageService {
 		return null;
 	}
 	
+	@GetMapping("/api/image")
+	public List<Image> getAllImages() {
+		return (List<Image>) imgRepo.findAll();
+	}
+	
 	@GetMapping("/api/image/{id}")
 	public Image findImageById(@PathVariable("id")int id) {
 		Optional<Image> data = imgRepo.findById(id);
