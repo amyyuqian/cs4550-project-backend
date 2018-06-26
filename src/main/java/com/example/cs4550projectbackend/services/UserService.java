@@ -181,7 +181,7 @@ public class UserService {
 		return null;
 	}
 	
-	@PutMapping("/api/user/unfollow/{id}")
+	@GetMapping("/api/user/unfollow/{id}")
 	public User unfollowUserById(@PathVariable("id")int id, HttpServletRequest request, HttpServletResponse res) {
 		String curUsername = (String) request.getServletContext().getAttribute("user");	
 		Optional<User> curData = repository.findUserByUsername(curUsername);
