@@ -62,8 +62,8 @@ public class UserService {
 	}
 	
 	@PostMapping("/api/logout")
-	public void logout(HttpSession session) {
-		session.invalidate();
+	public void logout(HttpServletRequest request) {
+		request.getServletContext().removeAttribute("user");
 	}
 
 	@GetMapping("/api/search/{username}")
