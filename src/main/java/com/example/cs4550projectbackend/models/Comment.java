@@ -15,7 +15,6 @@ public class Comment {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreated = new Date();
 	@ManyToOne
-	@JsonIgnore
 	private User user;
 	@ManyToOne
 	@JsonIgnore

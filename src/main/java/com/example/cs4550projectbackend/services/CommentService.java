@@ -1,8 +1,12 @@
 package com.example.cs4550projectbackend.services;
 
+import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.cs4550projectbackend.models.Comment;
@@ -22,15 +26,16 @@ public class CommentService {
 	@Autowired
 	CommentRepository commentRepo;
 	
-	@PostMapping("/api/user/{uid}/image/{iid}/comment")
-	public Comment createComment(@PathVariable("iid") int iid, @PathVariable("uid") int uid,
+	@PostMapping("/api/image/{iid}/comment")
+	public Comment createComment(@PathVariable("iid") int iid, HttpServletRequest request,
 			@RequestBody Comment body) {
 		Optional<Image> imgData = imgRepo.findById(iid);
-		Optional<User> userData = userRepo.findById(uid);
+		String curUsername = (String) request.getServletContext().getAttribute("user");	
+		Optional<User> curData = userRepo.findUserByUsername(curUsername);
 		
-		if (imgData.isPresent() && userData.isPresent()) {
+		if (imgData.isPresent() && curData.isPresent()) {
 			body.setImage(imgData.get());
-			body.setUser(userData.get());
+			body.setUser(curData.get());
 			return commentRepo.save(body);
 		}
 		return null;
@@ -39,5 +44,16 @@ public class CommentService {
 	@DeleteMapping("/api/comment/{id}")
 	public void deleteComment(@PathVariable("id")int id) {
 		commentRepo.deleteById(id);
+	}
+	
+	@GetMapping("/api/image/{id}/comment")
+	public List<Comment> getCommentsForImage(@PathVariable("id")int id) {
+		Optional<Image> data = imgRepo.findById(id);
+		
+		if (data.isPresent()) {
+			Image img = data.get();
+			return img.getComments();
+		}
+		return null;
 	}
 }
