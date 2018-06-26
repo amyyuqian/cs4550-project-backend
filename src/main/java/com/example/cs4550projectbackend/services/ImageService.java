@@ -128,8 +128,7 @@ public class ImageService {
 	}
 	
 	@GetMapping("/api/image/{imgId}/isInFavorites")
-	public boolean isInFavorites(@PathVariable("userId") int userId, 
-			@PathVariable("imgId") int imgId, HttpServletRequest request) {
+	public boolean isInFavorites(@PathVariable("imgId") int imgId, HttpServletRequest request) {
 		Optional<Image> data = imgRepo.findById(imgId);
 		String curUsername = (String) request.getServletContext().getAttribute("user");	
 		Optional<User> curData = userRepo.findUserByUsername(curUsername);
